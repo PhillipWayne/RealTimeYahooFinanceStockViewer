@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class StockPrice
+    public class StockPrice : IComparable<StockPrice>
     {
         //Symbol of the Stock
         public string Symbol { get; set; }
@@ -28,5 +28,15 @@ namespace Model
 
         //Ask price
         public decimal Ask { get; set; }
+
+        public int CompareTo(StockPrice other)
+        {
+            if (Symbol == other.Symbol)
+            {
+                return string.Compare(Symbol, other.Symbol, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return string.Compare(other.Symbol, Symbol, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

@@ -59,10 +59,31 @@ namespace ViewModels
             {
                 foreach (var stock in stockPriceList)
                 {
-                    StockPrices.Add(stock);
+                    if(StockPrices.Contains(stock))
+                    {
+                        UpdateStockItem(stock);
+                    }
+                    else
+                    {
+                        StockPrices.Add(stock);
+                    }
                 }
             }
         }
+
+        private void UpdateStockItem(StockPrice stock)
+        {
+            var addedStock = StockPrices.FirstOrDefault(item => item.Symbol == stock.Symbol);
+            if (addedStock != null)
+            {
+                addedStock.Ask = stock.Ask;
+                addedStock.Bid = stock.Bid;
+                addedStock.LastTradedPrice = stock.LastTradedPrice;
+                addedStock.TradedVolume = stock.TradedVolume;
+                addedStock.OpenPrice = stock.OpenPrice;
+            }
+        }
+
         public ObservableCollection<StockPrice> StockPrices
         {
             get; set;

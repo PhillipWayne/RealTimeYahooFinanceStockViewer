@@ -17,7 +17,7 @@ namespace RealTimeStockPriceViewer
     /// <summary>
     /// Interaction logic for HistoricStockPriceView.xaml
     /// </summary>
-    public partial class HistoricStockPriceView : Window
+    public partial class HistoricStockPriceView
     {
         public HistoricStockPriceView()
         {

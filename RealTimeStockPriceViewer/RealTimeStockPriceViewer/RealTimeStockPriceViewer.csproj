@@ -53,6 +53,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HistoricStockPriceView.xaml.cs">
+      <DependentUpon>HistoricStockPriceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StockPriceView.xaml.cs">
       <DependentUpon>StockPriceView.xaml</DependentUpon>
     </Compile>
@@ -60,6 +63,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="HistoricStockPriceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StockPriceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
