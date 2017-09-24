@@ -26,6 +26,8 @@ namespace ViewModels
             _fieldsToFetch = ConfigurationManager.AppSettings["FieldsToFetch"];
             stockService = new StockService();
             StockPrices = new ObservableCollection<StockPrice>();
+            if (string.IsNullOrWhiteSpace(CsvStockSymbols))
+                CsvStockSymbols = "0200.HK,0941.HK,2318.HK";
         }
 
         public string CsvStockSymbols
@@ -59,7 +61,7 @@ namespace ViewModels
             {
                 foreach (var stock in stockPriceList)
                 {
-                    if(StockPrices.Contains(stock))
+                    if (StockPrices.Any(item => item.Symbol == stock.Symbol))
                     {
                         UpdateStockItem(stock);
                     }
