@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeStockPriceViewer", "RealTimeStockPriceViewer\RealTimeStockPriceViewer.csproj", "{A4E6636A-0250-4F87-A96B-1E582D260450}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{264B08C9-5DD0-4145-84AC-1EADCC669454}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Views", "Views\Views.csproj", "{79365370-B69B-40D3-A0A2-397E4237FA0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels", "ViewModels\ViewModels.csproj", "{A8D1766F-6C1A-4EB6-8A40-21FE8F135DAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{B571D3B1-9451-4E63-8943-EF006776FF99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPriceService", "StockPriceService\StockPriceService.csproj", "{5FD1CCB3-F6B6-42DD-BEC1-51ED6ED50474}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4E6636A-0250-4F87-A96B-1E582D260450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4E6636A-0250-4F87-A96B-1E582D260450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4E6636A-0250-4F87-A96B-1E582D260450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4E6636A-0250-4F87-A96B-1E582D260450}.Release|Any CPU.Build.0 = Release|Any CPU
+		{264B08C9-5DD0-4145-84AC-1EADCC669454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{264B08C9-5DD0-4145-84AC-1EADCC669454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{264B08C9-5DD0-4145-84AC-1EADCC669454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{264B08C9-5DD0-4145-84AC-1EADCC669454}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79365370-B69B-40D3-A0A2-397E4237FA0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79365370-B69B-40D3-A0A2-397E4237FA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79365370-B69B-40D3-A0A2-397E4237FA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79365370-B69B-40D3-A0A2-397E4237FA0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8D1766F-6C1A-4EB6-8A40-21FE8F135DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8D1766F-6C1A-4EB6-8A40-21FE8F135DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8D1766F-6C1A-4EB6-8A40-21FE8F135DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8D1766F-6C1A-4EB6-8A40-21FE8F135DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B571D3B1-9451-4E63-8943-EF006776FF99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B571D3B1-9451-4E63-8943-EF006776FF99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B571D3B1-9451-4E63-8943-EF006776FF99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B571D3B1-9451-4E63-8943-EF006776FF99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FD1CCB3-F6B6-42DD-BEC1-51ED6ED50474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FD1CCB3-F6B6-42DD-BEC1-51ED6ED50474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FD1CCB3-F6B6-42DD-BEC1-51ED6ED50474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FD1CCB3-F6B6-42DD-BEC1-51ED6ED50474}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
