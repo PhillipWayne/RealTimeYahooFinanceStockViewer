@@ -53,18 +53,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="StockPriceView.xaml.cs">
+      <DependentUpon>StockPriceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="StockPriceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -97,10 +96,6 @@
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
       <Project>{a8d1766f-6c1a-4eb6-8a40-21fe8f135daa}</Project>
       <Name>ViewModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Views\Views.csproj">
-      <Project>{79365370-b69b-40d3-a0a2-397e4237fa0a}</Project>
-      <Name>Views</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
