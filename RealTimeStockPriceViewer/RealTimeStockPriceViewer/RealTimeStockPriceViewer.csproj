@@ -65,6 +65,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\HistoricStockPriceViewModel.cs" />
     <Compile Include="ViewModels\StockPriceViewModel.cs" />
     <Page Include="HistoricStockPriceView.xaml">
       <SubType>Designer</SubType>
