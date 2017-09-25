@@ -42,7 +42,7 @@ namespace StockPriceService
             var sotckPricesrices = new List<StockPrice>();
 
             if (!string.IsNullOrWhiteSpace(csvData) && !string.IsNullOrWhiteSpace(fieldsToFetch)
-                && fieldsToFetch.IndexOfAny(new char[] { 's', 'n', 'b', 'a', 'o','v', 'l', '1' }) >= 0)
+                && fieldsToFetch.IndexOfAny(new char[] { 's', 'b', 'a', 'o','v', 'l', '1' }) >= 0)
             {
                 //split the CSV data for each line as each line represents a stock
                 string[] stockRows = csvData.Replace("\r", "").Split('\n');
@@ -59,29 +59,14 @@ namespace StockPriceService
 
                         //Create the Stockprice object
                         var stockPrice = new StockPrice();
+                        
                         //Map each column index to the index of the fieldFormat
-                        stockPrice.Symbol = stockColumns[fieldsToFetch.IndexOf('s')];
-                        stockPrice.Name = stockColumns[fieldsToFetch.IndexOf('n')];
-
-                        stockPrice.Bid = stockColumns[fieldsToFetch.IndexOf('b')] == "N/A"
-                            ? 0
-                            : Convert.ToDecimal(stockColumns[fieldsToFetch.IndexOf('b')]);
-
-                        stockPrice.Ask = stockColumns[fieldsToFetch.IndexOf('a')] == "N/A"
-                            ? 0
-                            : Convert.ToDecimal(stockColumns[fieldsToFetch.IndexOf('a')]);
-
-                        stockPrice.OpenPrice = stockColumns[fieldsToFetch.IndexOf('o')] == "N/A"
-                            ? 0
-                            : Convert.ToDecimal(stockColumns[fieldsToFetch.IndexOf('o')]);
-
-                        stockPrice.TradedVolume = stockColumns[fieldsToFetch.IndexOf('v')] == "N/A"
-                            ? 0
-                            : Convert.ToDecimal(stockColumns[fieldsToFetch.IndexOf('v')]);
-
-                        stockPrice.LastTradedPrice = stockColumns[fieldsToFetch.IndexOf("l1", System.StringComparison.Ordinal)] == "N/A"
-                            ? 0
-                            : Convert.ToDecimal(stockColumns[fieldsToFetch.IndexOf("l1", System.StringComparison.Ordinal)]);
+                        stockPrice.Symbol = stockColumns[fieldsToFetch.IndexOf('s')].Replace("\"", string.Empty);
+                        stockPrice.Bid = GetColumnValue("b", stockColumns, fieldsToFetch);
+                        stockPrice.Ask = GetColumnValue("a", stockColumns, fieldsToFetch);
+                        stockPrice.OpenPrice = GetColumnValue("o", stockColumns, fieldsToFetch);
+                        stockPrice.TradedVolume = GetColumnValue("v", stockColumns, fieldsToFetch);
+                        stockPrice.LastTradedPrice = GetColumnValue("l1", stockColumns, fieldsToFetch);
 
                         sotckPricesrices.Add(stockPrice);
                     }
@@ -91,5 +76,16 @@ namespace StockPriceService
             return sotckPricesrices;
         }
 
+        private decimal? GetColumnValue(string field, string[] stockColumns, string fieldsToFetch)
+        {
+            if (stockColumns[fieldsToFetch.IndexOf(field, System.StringComparison.OrdinalIgnoreCase)] == "N/A")
+            {
+                return null;
+            }
+            decimal columnValue;
+            decimal.TryParse(stockColumns[fieldsToFetch.IndexOf(field, System.StringComparison.OrdinalIgnoreCase)],
+                out columnValue);
+            return columnValue;
+        }
     }
 }

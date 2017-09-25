@@ -71,10 +71,19 @@ namespace ViewModels
 
         private void GetStockPriceFromService(object obj)
         {
-            _stockPriceTimer.Start();
+            GetPrices();
+            if (!_stockPriceTimer.IsEnabled)
+            {
+                _stockPriceTimer.Start();
+            }
         }
 
         void _stockPriceTimer_Tick(object sender, EventArgs e)
+        {
+            GetPrices();
+        }
+
+        private void GetPrices()
         {
             var csvDetailResults = _stockService.FetchStockPrices(FormattedUrl);
 
@@ -83,6 +92,7 @@ namespace ViewModels
                 AddOrUpdateStockPriceCollection(_stockService.ParseStockPrices(csvDetailResults, _fieldsToFetch));
             }
         }
+
         private void AddOrUpdateStockPriceCollection(List<StockPrice> stockPriceList)
         {
             if (stockPriceList.Any())
