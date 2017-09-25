@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Timers;
+using System.Windows.Threading;
 using Commands;
 using Model;
 using StockPriceService;
@@ -14,29 +14,53 @@ namespace ViewModels
 {
     public class StockPriceViewModel
     {
+        //MVVM command to get the prices
         public RelayCommand GetPricesCommand { get; set; }
-        private readonly string _serviceUrl;
-        private readonly string _fieldsToFetch;
-        private readonly StockService stockService;
         
+        //url of yahoo finance to fetch the prices
+        private readonly string _serviceUrl;
+        
+        //fields charactors to fetch from the web
+        private readonly string _fieldsToFetch;
+
+        //stock service
+        private readonly StockService _stockService;
+
+        private DispatcherTimer _stockPriceTimer;
         public StockPriceViewModel()
         {
+            //initialize the command
             GetPricesCommand = new RelayCommand(GetStockPriceFromService, CanGetPrices);
+           
+            //get the url and fields info from the app.config
             _serviceUrl = ConfigurationManager.AppSettings["ServiceUrl"];
             _fieldsToFetch = ConfigurationManager.AppSettings["FieldsToFetch"];
-            stockService = new StockService();
+            
+            //instantiate the stock service
+            _stockService = new StockService();
+            
+            //instantiate the observable collection
             StockPrices = new ObservableCollection<StockPrice>();
+            
+            //set the stocksymbols to default values in the GUI
             if (string.IsNullOrWhiteSpace(CsvStockSymbols))
                 CsvStockSymbols = "0200.HK,0941.HK,2318.HK";
-        }
 
+            //initilize the timer
+            int interval;
+            int.TryParse(ConfigurationManager.AppSettings["TimerIntervalInSeconds"], out interval);
+            _stockPriceTimer = new DispatcherTimer();
+            _stockPriceTimer.Tick += _stockPriceTimer_Tick;
+            _stockPriceTimer.Interval = new TimeSpan(0, 0, 0, interval == 0 ? 50 : interval);
+           }
+        
+        
         public string CsvStockSymbols
         {
             get; set;
         }
         private bool CanGetPrices(object obj)
         {
-            //hardcoded to return true
             return true;
         }
 
@@ -47,15 +71,19 @@ namespace ViewModels
 
         private void GetStockPriceFromService(object obj)
         {
-            var csvDetailResults = stockService.FetchStockPrices(FormattedUrl);
+            _stockPriceTimer.Start();
+        }
+
+        void _stockPriceTimer_Tick(object sender, EventArgs e)
+        {
+            var csvDetailResults = _stockService.FetchStockPrices(FormattedUrl);
 
             if (!string.IsNullOrEmpty(csvDetailResults))
             {
-                AddToObservableCollection(stockService.ParseStockPrices(csvDetailResults, _fieldsToFetch));
+                AddOrUpdateStockPriceCollection(_stockService.ParseStockPrices(csvDetailResults, _fieldsToFetch));
             }
         }
-
-        private void AddToObservableCollection(List<StockPrice> stockPriceList)
+        private void AddOrUpdateStockPriceCollection(List<StockPrice> stockPriceList)
         {
             if (stockPriceList.Any())
             {

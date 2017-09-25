@@ -10,12 +10,20 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Stock Symbols</Label>
-                <TextBox Width="300" Height="25" Text ="{Binding CsvStockSymbols, Mode=TwoWay}"></TextBox>
-                <Button Width="120" Height="25" Command="{Binding GetPricesCommand}">Get Latest Prices</Button>
+                <TextBox Width="300" Height="25" Text ="{Binding CsvStockSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"></TextBox>
+                <Button Width="120" Height="25" Command="{Binding GetPricesCommand}" >Get Latest Prices</Button>
                 <Button Width="100" Height="25">Historic</Button>
             </StackPanel>
-            <DataGrid IsReadOnly="True" Height="379" ItemsSource ="{Binding StockPrices}">
-
+            <DataGrid IsReadOnly="True" Height="379" ItemsSource ="{Binding StockPrices}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Symbol}" Header="Stock Symbol"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Stock Name"/>
+                    <DataGridTextColumn Binding="{Binding LastTradedPrice}" Header="Last Traded Price"/>
+                    <DataGridTextColumn Binding="{Binding OpenPrice}" Header="Open Price"/>
+                    <DataGridTextColumn Binding="{Binding TradedVolume}" Header="Traded Volume"/>
+                    <DataGridTextColumn Binding="{Binding Bid}" Header="Bid Price"/>
+                    <DataGridTextColumn Binding="{Binding Ask}" Header="Ask Price"/>
+                </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
     </Grid>

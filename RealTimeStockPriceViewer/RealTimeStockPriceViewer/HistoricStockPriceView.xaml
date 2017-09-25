@@ -1,7 +1,8 @@
 ﻿<Window x:Class="RealTimeStockPriceViewer.HistoricStockPriceView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:stockPrice="clr-namespace:ViewModels;assembly=ViewModels">
+        xmlns:stockPrice="clr-namespace:ViewModels;assembly=ViewModels"
+        Title ="Historic Stock Prices">
     <Window.DataContext>
         <stockPrice:StockPriceViewModel/>
     </Window.DataContext>
