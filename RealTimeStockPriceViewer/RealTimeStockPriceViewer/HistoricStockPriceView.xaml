@@ -1,12 +1,23 @@
 ﻿<Window x:Class="RealTimeStockPriceViewer.HistoricStockPriceView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:stockPrice="clr-namespace:ViewModels;assembly=ViewModels"
+        xmlns:viewModels="clr-namespace:RealTimeStockPriceViewer.ViewModels"
         Title ="Historic Stock Prices">
     <Window.DataContext>
-        <stockPrice:StockPriceViewModel/>
+        <viewModels:StockPriceViewModel/>
     </Window.DataContext>
     <Grid>
-        
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="5,5,5,5" Content="Start Date"></Label>
+                <DatePicker Width ="150"  Margin="5,5,5,5"></DatePicker>
+
+                <Label Margin="5,5,5,5" Content="End Date"></Label>
+                <DatePicker Width ="150" Margin="5,5,5,5"></DatePicker>
+
+                <Button Width ="150" Margin="5,5,5,5" Content="Get Historic Prices"></Button>
+            </StackPanel>
+            <StackPanel></StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

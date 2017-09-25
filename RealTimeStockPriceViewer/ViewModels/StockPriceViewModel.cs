@@ -16,6 +16,9 @@ namespace ViewModels
     {
         //MVVM command to get the prices
         public RelayCommand GetPricesCommand { get; set; }
+
+        //show historic window command
+        public RelayCommand ShowHistoricWindowCommand { get; set; }
         
         //url of yahoo finance to fetch the prices
         private readonly string _serviceUrl;
@@ -31,7 +34,8 @@ namespace ViewModels
         {
             //initialize the command
             GetPricesCommand = new RelayCommand(GetStockPriceFromService, CanGetPrices);
-           
+
+            ShowHistoricWindowCommand = new RelayCommand(ShowHistoricWindow, CanShowHistoricWindow);
             //get the url and fields info from the app.config
             _serviceUrl = ConfigurationManager.AppSettings["ServiceUrl"];
             _fieldsToFetch = ConfigurationManager.AppSettings["FieldsToFetch"];
@@ -53,6 +57,16 @@ namespace ViewModels
             _stockPriceTimer.Tick += _stockPriceTimer_Tick;
             _stockPriceTimer.Interval = new TimeSpan(0, 0, 0, interval == 0 ? 50 : interval);
            }
+
+        private bool CanShowHistoricWindow(object obj)
+        {
+            return true;
+        }
+
+        private void ShowHistoricWindow(object obj)
+        {
+           
+        }
         
         
         public string CsvStockSymbols
