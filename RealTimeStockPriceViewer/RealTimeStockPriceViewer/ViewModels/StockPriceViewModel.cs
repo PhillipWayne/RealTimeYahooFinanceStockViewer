@@ -43,10 +43,6 @@ namespace RealTimeStockPriceViewer.ViewModels
             
             //instantiate the observable collection
             StockPrices = new ObservableCollection<StockPrice>();
-            
-            //set the stocksymbols to default values in the GUI
-            if (string.IsNullOrWhiteSpace(CsvStockSymbols))
-                CsvStockSymbols = "0200.HK,0941.HK,2318.HK";
 
             //initilize the timer
             int interval;
@@ -63,7 +59,8 @@ namespace RealTimeStockPriceViewer.ViewModels
 
         private void ShowHistoricWindow(object obj)
         {
-         
+            var historicView = new HistoricStockPriceView(); 
+            historicView.Show();
         }
         
         
@@ -73,7 +70,8 @@ namespace RealTimeStockPriceViewer.ViewModels
         }
         private bool CanGetPrices(object obj)
         {
-            return true;
+            var symbols = obj as string;
+            return !string.IsNullOrWhiteSpace(symbols);
         }
 
         private string FormattedUrl

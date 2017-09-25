@@ -9,13 +9,13 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Margin="5,5,5,5" Content="Start Date"></Label>
+                <Label FontWeight="Bold" Margin="5,5,5,5" Content="Start Date"></Label>
                 <DatePicker Width ="150"  Margin="5,5,5,5"></DatePicker>
 
-                <Label Margin="5,5,5,5" Content="End Date"></Label>
+                <Label FontWeight="Bold" Margin="5,5,5,5" Content="End Date"></Label>
                 <DatePicker Width ="150" Margin="5,5,5,5"></DatePicker>
 
-                <Button Width ="150" Margin="5,5,5,5" Content="Get Historic Prices"></Button>
+                <Button FontWeight="Bold" Width ="150" Margin="5,5,5,5" Content="Get Historic Prices"></Button>
             </StackPanel>
             <StackPanel></StackPanel>
         </StackPanel>

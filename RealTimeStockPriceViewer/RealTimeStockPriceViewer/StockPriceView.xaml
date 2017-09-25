@@ -9,10 +9,10 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Margin="2,2,2,2" >Stock Symbols</Label>
-                <TextBox Width="300" Margin="2,2,2,2" Height="25" Text ="{Binding CsvStockSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"></TextBox>
-                <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding GetPricesCommand}" >Get Realtime Price</Button>
-                <Button Width="100" Margin="2,2,2,2" Height="25">Historic</Button>
+                <Label FontWeight="Bold" Margin="2,2,2,2" >Stock Symbols</Label>
+                <TextBox x:Name ="TextSymbols" Width="300" Margin="2,2,2,2" Height="25" Text ="{Binding CsvStockSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"></TextBox>
+                <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding GetPricesCommand}" CommandParameter="{Binding ElementName=TextSymbols, Path=Text }" FontWeight="Bold" Content="Get Realtime Price" ></Button>
+                <Button Width="100" Margin="2,2,2,2" Height="25" FontWeight="Bold" Command="{Binding ShowHistoricWindowCommand}" Content ="Historic Data"></Button>
             </StackPanel>
             <DataGrid IsReadOnly="True" Height="353" ItemsSource ="{Binding StockPrices}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
