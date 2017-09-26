@@ -10,7 +10,7 @@ using StockPriceService;
 
 namespace RealTimeStockPriceViewer.ViewModels
 {
-    public class StockPriceViewModel
+    public class StockPriceViewModel : BaseViewModel
     {
         //MVVM command to get the prices
         public RelayCommand GetPricesCommand { get; set; }
@@ -126,17 +126,19 @@ namespace RealTimeStockPriceViewer.ViewModels
             var addedStock = StockPrices.FirstOrDefault(item => item.Symbol == stock.Symbol);
             if (addedStock != null)
             {
-                addedStock.Ask = stock.Ask;
-                addedStock.Bid = stock.Bid;
-                addedStock.LastTradedPrice = stock.LastTradedPrice;
-                addedStock.TradedVolume = stock.TradedVolume;
-                addedStock.OpenPrice = stock.OpenPrice;
+                int index = StockPrices.IndexOf(addedStock);
+                StockPrices[index].Ask = stock.Ask;
+                StockPrices[index].Bid = stock.Bid;
+                StockPrices[index].LastTradedPrice = stock.LastTradedPrice;
+                StockPrices[index].TradedVolume = stock.TradedVolume;
+                StockPrices[index].OpenPrice = stock.OpenPrice;
             }
         }
 
         public ObservableCollection<StockPrice> StockPrices
         {
-            get; set;
+            get;
+            set;
         }
     }
 }

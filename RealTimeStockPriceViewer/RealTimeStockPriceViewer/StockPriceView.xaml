@@ -14,16 +14,20 @@
                 <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding GetPricesCommand}" CommandParameter="{Binding ElementName=TextSymbols, Path=Text }" FontWeight="Bold" Content="Get Realtime Price" ></Button>
                 <Button Width="100" Margin="2,2,2,2" Height="25" FontWeight="Bold" Command="{Binding ShowHistoricWindowCommand}" Content ="Historic Data"></Button>
             </StackPanel>
-            <DataGrid IsReadOnly="True" Height="353" ItemsSource ="{Binding StockPrices}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Symbol}" Header="Stock Symbol"/>
-                    <DataGridTextColumn Binding="{Binding LastTradedPrice}" Header="Last Traded Price"/>
-                    <DataGridTextColumn Binding="{Binding OpenPrice}" Header="Open Price"/>
-                    <DataGridTextColumn Binding="{Binding TradedVolume}" Header="Traded Volume"/>
-                    <DataGridTextColumn Binding="{Binding Bid}" Header="Bid Price"/>
-                    <DataGridTextColumn Binding="{Binding Ask}" Header="Ask Price"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <StackPanel>
+                <DockPanel>
+                    <DataGrid IsReadOnly="True" ItemsSource ="{Binding StockPrices, Mode=TwoWay}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Symbol}" Header="Stock Symbol"/>
+                            <DataGridTextColumn Binding="{Binding LastTradedPrice}" Header="Last Traded Price"/>
+                            <DataGridTextColumn Binding="{Binding OpenPrice}" Header="Open Price"/>
+                            <DataGridTextColumn Binding="{Binding TradedVolume}" Header="Traded Volume"/>
+                            <DataGridTextColumn Binding="{Binding Bid}" Header="Bid Price"/>
+                            <DataGridTextColumn Binding="{Binding Ask}" Header="Ask Price"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

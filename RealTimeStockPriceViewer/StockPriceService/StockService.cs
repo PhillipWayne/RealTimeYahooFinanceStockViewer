@@ -30,6 +30,7 @@ namespace StockPriceService
             return csvData;
         }
 
+        Random rd = new Random(100);
         /// <summary>
         /// Parse the CSV data received from the web and create the stock price collection
         /// </summary>

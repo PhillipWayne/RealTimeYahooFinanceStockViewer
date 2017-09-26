@@ -1,26 +1,78 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Model
 {
-    public class StockPrice : IComparable<StockPrice>
+    public class StockPrice : IComparable<StockPrice>, INotifyPropertyChanged
     {
         //Symbol of the Stock
-        public string Symbol { get; set; }
+        public string Symbol { get ; set; }
+
 
         //LastTradedPrice price of the Stock
-        public decimal? LastTradedPrice { get; set; }
+        private decimal? _lastTradedPrice;
+        public decimal? LastTradedPrice
+        {
+            get { return _lastTradedPrice; }
+            set
+            {
+                _lastTradedPrice = value;
+                OnPropertyChanged("LastTradedPrice");
+            }
+        }
 
-        //ClosePrice price of the Stock
-        public decimal? OpenPrice { get; set; }
-        
+        //Open price of the Stock
+        private decimal? _openPrice;
+        public decimal? OpenPrice
+        {
+            get { return _openPrice; }
+            set
+            {
+                _openPrice = value;
+                OnPropertyChanged("OpenPrice");
+            }
+        }
+
+
         //Volume of the Stock
-        public decimal? TradedVolume { get; set; }
+        private decimal? _tradedVolume;
+        public decimal? TradedVolume
+        {
+            get { return _tradedVolume; }
+            set
+            {
+                _tradedVolume = value;
+                OnPropertyChanged("TradedVolume");
+            }
+        }
+       
 
         //Bid price
-        public decimal? Bid { get; set; }
-
+        private decimal? _bid;
+        public decimal? Bid
+        {
+            get { return _bid; }
+            set
+            {
+                _bid = value;
+                OnPropertyChanged("Bid");
+            }
+        }
+       
         //Ask price
-        public decimal? Ask { get; set; }
+        private decimal? _ask;
+        public decimal? Ask
+        {
+            get { return _ask; }
+            set
+            {
+                _ask = value;
+                OnPropertyChanged("Ask");
+            }
+        }
+      
+        //Price as at date
+        public DateTime PriceAtDate { get; set; }
 
         public int CompareTo(StockPrice other)
         {
@@ -31,5 +83,13 @@ namespace Model
 
             return string.Compare(other.Symbol, Symbol, StringComparison.OrdinalIgnoreCase);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        } 
     }
 }

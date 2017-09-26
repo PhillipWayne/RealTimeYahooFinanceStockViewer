@@ -4,7 +4,7 @@
         xmlns:viewModels="clr-namespace:RealTimeStockPriceViewer.ViewModels"
         Title ="Historic Stock Prices">
     <Window.DataContext>
-        <viewModels:StockPriceViewModel/>
+        <viewModels:HistoricStockPriceViewModel/>
     </Window.DataContext>
     <Grid>
         <StackPanel>
@@ -17,7 +17,21 @@
 
                 <Button FontWeight="Bold" Width ="150" Margin="5,5,5,5" Content="Get Historic Prices"></Button>
             </StackPanel>
-            <StackPanel></StackPanel>
+            <StackPanel>
+                <DockPanel>
+                    <DataGrid IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding PriceAtDate}" Header="Date"/>
+                            <DataGridTextColumn Binding="{Binding Symbol}" Header="Stock Symbol"/>
+                            <DataGridTextColumn Binding="{Binding LastTradedPrice}" Header="Last Traded Price"/>
+                            <DataGridTextColumn Binding="{Binding OpenPrice}" Header="Open Price"/>
+                            <DataGridTextColumn Binding="{Binding TradedVolume}" Header="Traded Volume"/>
+                            <DataGridTextColumn Binding="{Binding Bid}" Header="Bid Price"/>
+                            <DataGridTextColumn Binding="{Binding Ask}" Header="Ask Price"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
