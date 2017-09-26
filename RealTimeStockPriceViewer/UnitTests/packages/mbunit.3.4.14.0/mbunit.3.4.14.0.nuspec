@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>mbunit</id>
+    <version>3.4.14.0</version>
+    <title>Gallio &amp; MbUnit</title>
+    <authors>Nuno Costa</authors>
+    <owners>Nuno Costa</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://code.google.com/p/mb-unit/</projectUrl>
+    <iconUrl>http://www.gallio.org/images/EchoLink100.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Gallio &amp; MbUnit dlls</description>
+    <summary>Gallio &amp; MbUnit dlls</summary>
+    <releaseNotes>Update to version 3.4.14.0 and adding licence url and .pdb files</releaseNotes>
+    <tags>mbunit gallio</tags>
+  </metadata>
+</package>
