@@ -1,7 +1,7 @@
 ﻿<Window x:Class="RealTimeStockPriceViewer.StockPriceView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Real Time Stock Prices" Height="440.395" Width="675"
+        Title="Real Time Stock Prices" Height="440.395" Width="768"
         xmlns:viewModels="clr-namespace:RealTimeStockPriceViewer.ViewModels">
     <Window.DataContext>
         <viewModels:StockPriceViewModel/>
@@ -10,22 +10,25 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold" Margin="2,2,2,2" >Stock Symbols</Label>
-                <TextBox x:Name ="TextSymbols" Width="300" Margin="2,2,2,2" Height="25" Text ="{Binding CsvStockSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"></TextBox>
-                <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding GetPricesCommand}" CommandParameter="{Binding ElementName=TextSymbols, Path=Text }" FontWeight="Bold" Content="Get Realtime Price" ></Button>
-                <Button Width="100" Margin="2,2,2,2" Height="25" FontWeight="Bold" Command="{Binding ShowHistoricWindowCommand}" Content ="Historic Data"></Button>
+                <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding StartRealTimeFeedCommand}" FontWeight="Bold" Content="Start Realtime Feed" ></Button>
+                <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding StopRealTimeFeedCommand}" FontWeight="Bold" Content="Stop Realtime Feed" ></Button>
+                <Button Width="120" Margin="2,2,2,2" Height="25" FontWeight="Bold" Command="{Binding ShowHistoricWindowCommand}" Content ="View Historic Data"></Button>
             </StackPanel>
             <StackPanel>
                 <DockPanel>
-                    <DataGrid IsReadOnly="True" ItemsSource ="{Binding StockPrices, Mode=TwoWay}" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Symbol}" Header="Stock Symbol"/>
-                            <DataGridTextColumn Binding="{Binding LastTradedPrice}" Header="Last Traded Price"/>
-                            <DataGridTextColumn Binding="{Binding OpenPrice}" Header="Open Price"/>
-                            <DataGridTextColumn Binding="{Binding TradedVolume}" Header="Traded Volume"/>
-                            <DataGridTextColumn Binding="{Binding Bid}" Header="Bid Price"/>
-                            <DataGridTextColumn Binding="{Binding Ask}" Header="Ask Price"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <DataGrid IsReadOnly="True" ItemsSource ="{Binding StockPrices}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Symbol}" Width ="100" Header="Symbol"/>
+                                <DataGridTextColumn Binding="{Binding Name}" Width ="150" Header="Name"/>
+                                <DataGridTextColumn Binding="{Binding LastTradedPrice}" Width ="100" Header="Last Traded Price"/>
+                                <DataGridTextColumn Binding="{Binding OpenPrice}" Width ="100" Header="Open Price"/>
+                                <DataGridTextColumn Binding="{Binding TradedVolume}" Width ="100" Header="Traded Volume"/>
+                                <DataGridTextColumn Binding="{Binding Bid}" Width ="100" Header="Bid Price"/>
+                                <DataGridTextColumn Binding="{Binding Ask}" Width ="100" Header="Ask Price"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
                 </DockPanel>
             </StackPanel>
         </StackPanel>

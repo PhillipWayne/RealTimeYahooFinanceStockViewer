@@ -8,6 +8,8 @@ namespace Model
         //Symbol of the Stock
         public string Symbol { get ; set; }
 
+        //name of the stock
+        public string Name { get; set; }
 
         //LastTradedPrice price of the Stock
         private decimal? _lastTradedPrice;

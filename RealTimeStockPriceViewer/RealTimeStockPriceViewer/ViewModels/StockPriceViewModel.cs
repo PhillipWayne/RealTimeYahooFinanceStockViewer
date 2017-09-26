@@ -13,7 +13,9 @@ namespace RealTimeStockPriceViewer.ViewModels
     public class StockPriceViewModel : BaseViewModel
     {
         //MVVM command to get the prices
-        public RelayCommand GetPricesCommand { get; set; }
+        public RelayCommand StartRealTimeFeedCommand { get; set; }
+
+        public RelayCommand StopRealTimeFeedCommand { get; set; }
 
         //show historic window command
         public RelayCommand ShowHistoricWindowCommand { get; set; }
@@ -27,16 +29,21 @@ namespace RealTimeStockPriceViewer.ViewModels
         //stock service
         private readonly StockService _stockService;
 
-        private DispatcherTimer _stockPriceTimer;
+        private readonly DispatcherTimer _stockPriceTimer;
         public StockPriceViewModel()
         {
-            //initialize the command
-            GetPricesCommand = new RelayCommand(GetStockPriceFromService, CanGetPrices);
+            //initialize the start real time feed command
+            StartRealTimeFeedCommand = new RelayCommand(GetStockPriceFromService, CanStartCommand);
+
+            //initialize the stop real time feed command
+            StopRealTimeFeedCommand = new RelayCommand(StopFeedFromService, CanStartCommand);
 
             ShowHistoricWindowCommand = new RelayCommand(ShowHistoricWindow, CanShowHistoricWindow);
             //get the url and fields info from the app.config
             _serviceUrl = ConfigurationManager.AppSettings["ServiceUrl"];
             _fieldsToFetch = ConfigurationManager.AppSettings["FieldsToFetch"];
+
+            CsvStockSymbols = ConfigurationManager.AppSettings["CsvSymbols"];
             
             //instantiate the stock service
             _stockService = new StockService();
@@ -68,15 +75,22 @@ namespace RealTimeStockPriceViewer.ViewModels
         {
             get; set;
         }
-        private bool CanGetPrices(object obj)
+        private bool CanStartCommand(object obj)
         {
-            var symbols = obj as string;
-            return !string.IsNullOrWhiteSpace(symbols);
+            return true;
         }
 
         private string FormattedUrl
         {
             get { return string.Format(_serviceUrl + _fieldsToFetch, CsvStockSymbols); }
+        }
+
+        private void StopFeedFromService(object obj)
+        {
+            if (_stockPriceTimer.IsEnabled)
+            {
+                _stockPriceTimer.Stop();
+            }
         }
 
         private void GetStockPriceFromService(object obj)

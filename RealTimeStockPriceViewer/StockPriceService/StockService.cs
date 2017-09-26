@@ -63,6 +63,7 @@ namespace StockPriceService
                         
                         //Map each column index to the index of the fieldFormat
                         stockPrice.Symbol = stockColumns[fieldsToFetch.IndexOf('s')].Replace("\"", string.Empty);
+                        stockPrice.Name = stockColumns[fieldsToFetch.IndexOf('n')].Replace("\"", string.Empty);
                         stockPrice.Bid = GetColumnValue("b", stockColumns, fieldsToFetch);
                         stockPrice.Ask = GetColumnValue("a", stockColumns, fieldsToFetch);
                         stockPrice.OpenPrice = GetColumnValue("o", stockColumns, fieldsToFetch);
