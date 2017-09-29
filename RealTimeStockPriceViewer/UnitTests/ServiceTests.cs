@@ -8,7 +8,13 @@ namespace UnitTests
     public class ServiceTests
     {
         private StockService _stockService;
-        
+
+        static void Main()
+        {
+            ViewModelTest test = new ViewModelTest();
+            test.TestStockPriceViewModel();
+        }
+
         [Test]
         public void TestParseCsv()
         {

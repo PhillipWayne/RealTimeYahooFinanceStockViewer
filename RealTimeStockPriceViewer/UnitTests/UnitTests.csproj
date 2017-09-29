@@ -60,11 +60,16 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests.cs" />
+    <Compile Include="ViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{264b08c9-5dd0-4145-84ac-1eadcc669454}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RealTimeStockPriceViewer\RealTimeStockPriceViewer.csproj">
+      <Project>{a4e6636a-0250-4f87-a96b-1e582d260450}</Project>
+      <Name>RealTimeStockPriceViewer</Name>
     </ProjectReference>
     <ProjectReference Include="..\StockPriceService\StockPriceService.csproj">
       <Project>{5fd1ccb3-f6b6-42dd-bec1-51ed6ed50474}</Project>
