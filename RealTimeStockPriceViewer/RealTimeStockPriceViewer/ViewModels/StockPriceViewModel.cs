@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Windows.Threading;
@@ -30,6 +31,10 @@ namespace RealTimeStockPriceViewer.ViewModels
         private readonly StockService _stockService;
 
         private readonly DispatcherTimer _stockPriceTimer;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public StockPriceViewModel()
         {
             //initialize the start real time feed command
@@ -43,6 +48,7 @@ namespace RealTimeStockPriceViewer.ViewModels
             _serviceUrl = ConfigurationManager.AppSettings["ServiceUrl"];
             _fieldsToFetch = ConfigurationManager.AppSettings["FieldsToFetch"];
 
+            //get the symbols from the config, this can be inclued to be taken from UI as well
             CsvStockSymbols = ConfigurationManager.AppSettings["CsvSymbols"];
             
             //instantiate the stock service
@@ -51,7 +57,7 @@ namespace RealTimeStockPriceViewer.ViewModels
             //instantiate the observable collection
             StockPrices = new ObservableCollection<StockPrice>();
 
-            //initilize the timer
+            //initilize the timer ticks from app.config, if no value then default to 50 sec
             int interval;
             int.TryParse(ConfigurationManager.AppSettings["TimerIntervalInSeconds"], out interval);
             _stockPriceTimer = new DispatcherTimer();
@@ -64,22 +70,30 @@ namespace RealTimeStockPriceViewer.ViewModels
             return true;
         }
 
+        //show the historic view
         private void ShowHistoricWindow(object obj)
         {
             var historicView = new HistoricStockPriceView(); 
             historicView.Show();
         }
         
-        
+        /// <summary>
+        /// CsvStockSymbols property
+        /// </summary>
         public string CsvStockSymbols
         {
             get; set;
         }
+
         private bool CanStartCommand(object obj)
         {
             return true;
         }
 
+
+        /// <summary>
+        /// FormattedUrl needed for the service
+        /// </summary>
         private string FormattedUrl
         {
             get { return string.Format(_serviceUrl + _fieldsToFetch, CsvStockSymbols); }
@@ -93,30 +107,66 @@ namespace RealTimeStockPriceViewer.ViewModels
             }
         }
 
+        //Get the stock price asynchronously and start the timer
         private void GetStockPriceFromService(object obj)
         {
-            GetPrices();
+            GetPricesAsync();
             if (!_stockPriceTimer.IsEnabled)
             {
                 _stockPriceTimer.Start();
             }
         }
 
+        /// <summary>
+        /// Time tick event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void _stockPriceTimer_Tick(object sender, EventArgs e)
         {
-            GetPrices();
+            _stockPriceTimer.Stop();
+            GetPricesAsync();
+            _stockPriceTimer.Start();
         }
 
-        private void GetPrices()
+        /// <summary>
+        /// GetPrices from service asynchronously
+        /// </summary>
+        private void GetPricesAsync()
+        {
+            var bgworker = new BackgroundWorker();
+            bgworker.DoWork += GetPrices;
+            bgworker.RunWorkerCompleted += bgworker_RunWorkerCompleted;
+            bgworker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// background woek completed event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="runWorkEventArgs"></param>
+        void bgworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkEventArgs)
+        {
+            var stockListResults = runWorkEventArgs.Result as List<StockPrice>;
+            AddOrUpdateStockPriceCollection(stockListResults);
+        }
+
+        /// <summary>
+        /// Background workers dowork method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void GetPrices(object sender, DoWorkEventArgs args)
         {
             var csvDetailResults = _stockService.FetchStockPrices(FormattedUrl);
 
             if (!string.IsNullOrEmpty(csvDetailResults))
             {
-                AddOrUpdateStockPriceCollection(_stockService.ParseStockPrices(csvDetailResults, _fieldsToFetch));
+                args.Result = _stockService.ParseStockPrices(csvDetailResults, _fieldsToFetch);
             }
         }
 
+        //Add stock to collection if exists else update the collection
         private void AddOrUpdateStockPriceCollection(List<StockPrice> stockPriceList)
         {
             if (stockPriceList.Any())
@@ -146,6 +196,7 @@ namespace RealTimeStockPriceViewer.ViewModels
                 StockPrices[index].LastTradedPrice = stock.LastTradedPrice;
                 StockPrices[index].TradedVolume = stock.TradedVolume;
                 StockPrices[index].OpenPrice = stock.OpenPrice;
+                StockPrices[index].TimeStamp = DateTime.Now;
             }
         }
 

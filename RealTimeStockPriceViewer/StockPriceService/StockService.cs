@@ -69,7 +69,7 @@ namespace StockPriceService
                         stockPrice.OpenPrice = GetColumnValue("o", stockColumns, fieldsToFetch);
                         stockPrice.TradedVolume = GetColumnValue("v", stockColumns, fieldsToFetch);
                         stockPrice.LastTradedPrice = GetColumnValue("l1", stockColumns, fieldsToFetch);
-
+                        stockPrice.TimeStamp = DateTime.Now;
                         sotckPricesrices.Add(stockPrice);
                     }
                 }

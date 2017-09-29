@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:RealTimeStockPriceViewer.ViewModels"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title ="Historic Stock Prices" Width="867">
     <Window.DataContext>
         <viewModels:HistoricStockPriceViewModel/>
@@ -10,28 +11,26 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Symbol"></Label>
-                <TextBox Width="180"  Margin="5,5,5,5"></TextBox>
+                <TextBox Text="{Binding CsvSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" x:Name="TxtSymbol" Width="180"  Margin="5,5,5,5"></TextBox>
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Start Date"></Label>
-                <DatePicker Width ="150"  Margin="5,5,5,5"></DatePicker>
+                <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width ="150"  Margin="5,5,5,5"></DatePicker>
 
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="End Date"></Label>
-                <DatePicker Width ="150" Margin="5,5,5,5"></DatePicker>
-
-                <Button FontWeight="Bold" Width ="100" Margin="5,5,5,5" Content="Get History"></Button>
+                <DatePicker SelectedDate="{Binding EnDate, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width ="150" Margin="5,5,5,5"></DatePicker>
+                <Button FontWeight="Bold" Width ="100" Margin="5,5,5,5" Command ="{Binding GetHistoricDataCommand}" CommandParameter="{Binding ElementName=TxtSymbol, Path= Text, UpdateSourceTrigger=PropertyChanged }" Content="Get History"></Button>
             </StackPanel>
             <StackPanel>
                 <DockPanel>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <DataGrid IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding PriceAtDate}" Width ="100" Header="Date"/>
+                                <DataGridTextColumn Binding="{Binding AsAtDate}" Width ="100" Header="Date"/>
                                 <DataGridTextColumn Binding="{Binding Symbol}" Width ="100" Header="Symbol"/>
-                                <DataGridTextColumn Binding="{Binding Name}" Width ="150" Header="Name"/>
-                                <DataGridTextColumn Binding="{Binding LastTradedPrice}" Width ="100" Header="Last Traded Price"/>
-                                <DataGridTextColumn Binding="{Binding OpenPrice}" Width ="100" Header="Open Price"/>
-                                <DataGridTextColumn Binding="{Binding TradedVolume}" Width ="100" Header="Traded Volume"/>
-                                <DataGridTextColumn Binding="{Binding Bid}" Width ="100" Header="Bid Price"/>
-                                <DataGridTextColumn Binding="{Binding Ask}" Width ="100" Header="Ask Price"/>
+                                <DataGridTextColumn Binding="{Binding OpenPrice}" Width ="100" Header="Open"/>
+                                <DataGridTextColumn Binding="{Binding High}" Width ="100" Header="High"/>
+                                <DataGridTextColumn Binding="{Binding Low}" Width ="100" Header="Low"/>
+                                <DataGridTextColumn Binding="{Binding ClosePrice}" Width ="100" Header="Close"/>
+                                <DataGridTextColumn Binding="{Binding Volume}" Width ="100" Header="Volume"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
