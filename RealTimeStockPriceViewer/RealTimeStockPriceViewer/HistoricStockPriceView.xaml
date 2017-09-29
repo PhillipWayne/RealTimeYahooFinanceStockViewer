@@ -2,8 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:RealTimeStockPriceViewer.ViewModels"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title ="Historic Stock Prices" Width="867">
+        Title ="Historic Stock Prices" Width="826" ResizeMode="NoResize" WindowState="Maximized">
     <Window.DataContext>
         <viewModels:HistoricStockPriceViewModel/>
     </Window.DataContext>
@@ -23,7 +22,7 @@
             <StackPanel Height="415">
 
                 <ScrollViewer Margin="5,5,5,5" x:Name="GridScrollViewer">
-                        <DataGrid IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False"
+                    <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False"
                                   ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="405">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding AsAtDate}" Width ="100" Header="Date"/>
