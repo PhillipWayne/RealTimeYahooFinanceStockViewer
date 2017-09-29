@@ -7,7 +7,7 @@
     <Window.DataContext>
         <viewModels:HistoricStockPriceViewModel/>
     </Window.DataContext>
-    <Grid>
+    <Grid FocusManager.FocusedElement="{Binding ElementName= GridScrollViewer}">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Symbol"></Label>
@@ -20,9 +20,10 @@
                 <Button FontWeight="Bold" Width ="100" Margin="5,5,5,5" Command ="{Binding GetHistoricDataCommand}" CommandParameter="{Binding ElementName=TxtSymbol, Path= Text, UpdateSourceTrigger=PropertyChanged }" Content="Get History"></Button>
             </StackPanel>
             <StackPanel>
-                <DockPanel>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <DataGrid IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False">
+                <DockPanel Margin="10,10,10,10">
+                    <ScrollViewer x:Name="GridScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <DataGrid IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False"
+                                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding AsAtDate}" Width ="100" Header="Date"/>
                                 <DataGridTextColumn Binding="{Binding Symbol}" Width ="100" Header="Symbol"/>

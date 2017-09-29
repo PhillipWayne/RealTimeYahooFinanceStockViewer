@@ -16,17 +16,17 @@
             </StackPanel>
             <StackPanel>
                 <DockPanel>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <DataGrid IsReadOnly="True" ItemsSource ="{Binding StockPrices}" AutoGenerateColumns="False">
+                    <ScrollViewer Margin="10,10,10,10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <DataGrid IsReadOnly="True" ItemsSource ="{Binding StockPrices}" AutoGenerateColumns="False" Width="Auto">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding TimeStamp}" Width ="125" Header="Refreshed Time"/>
                                 <DataGridTextColumn Binding="{Binding Symbol}" Width ="100" Header="Symbol"/>
                                 <DataGridTextColumn Binding="{Binding Name}" Width ="150" Header="Name"/>
                                 <DataGridTextColumn Binding="{Binding LastTradedPrice}" Width ="100" Header="Last Traded Price"/>
-                                <DataGridTextColumn Binding="{Binding OpenPrice}" Width ="100" Header="Open"/>
-                                <DataGridTextColumn Binding="{Binding TradedVolume}" Width ="100" Header="Volume"/>
-                                <DataGridTextColumn Binding="{Binding Bid}" Width ="100" Header="Bid"/>
-                                <DataGridTextColumn Binding="{Binding Ask}" Width ="100" Header="Ask"/>
+                                <DataGridTextColumn Binding="{Binding OpenPrice}" Width ="80" Header="Open"/>
+                                <DataGridTextColumn Binding="{Binding TradedVolume}" Width ="80" Header="Volume"/>
+                                <DataGridTextColumn Binding="{Binding Bid}" Width ="80" Header="Bid"/>
+                                <DataGridTextColumn Binding="{Binding Ask}" Width ="80" Header="Ask"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
