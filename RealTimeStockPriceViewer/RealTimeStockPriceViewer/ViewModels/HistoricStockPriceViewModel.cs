@@ -106,7 +106,7 @@ namespace RealTimeStockPriceViewer.ViewModels
             }
             else
             {
-                MessageBox.Show("No data found, Please modify the search paramaters and try again.");
+                ViewModelHelper.ShowMessage("No data found, Please modify the search paramaters and try again.", "Info");
             }
         }
     }

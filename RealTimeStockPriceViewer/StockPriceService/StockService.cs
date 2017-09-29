@@ -26,11 +26,12 @@ namespace StockPriceService
             {
                 throw ex;
             }
-            
+
             return csvData;
         }
 
-        Random rd = new Random(100);
+        private Random rd = new Random(100);
+
         /// <summary>
         /// Parse the CSV data received from the web and create the stock price collection
         /// </summary>
@@ -42,8 +43,7 @@ namespace StockPriceService
             //Creates the stock price collection
             var sotckPricesrices = new List<StockPrice>();
 
-            if (!string.IsNullOrWhiteSpace(csvData) && !string.IsNullOrWhiteSpace(fieldsToFetch)
-                && fieldsToFetch.IndexOfAny(new char[] { 's', 'b', 'a', 'o','v', 'l', '1' }) >= 0)
+            if (!string.IsNullOrWhiteSpace(csvData) && !string.IsNullOrWhiteSpace(fieldsToFetch))
             {
                 //split the CSV data for each line as each line represents a stock
                 string[] stockRows = csvData.Replace("\r", "").Split('\n');
@@ -60,16 +60,24 @@ namespace StockPriceService
 
                         //Create the Stockprice object
                         var stockPrice = new StockPrice();
-                        
-                        //Map each column index to the index of the fieldFormat
-                        stockPrice.Symbol = stockColumns[fieldsToFetch.IndexOf('s')].Replace("\"", string.Empty);
-                        stockPrice.Name = stockColumns[fieldsToFetch.IndexOf('n')].Replace("\"", string.Empty);
-                        stockPrice.Bid = GetColumnValue("b", stockColumns, fieldsToFetch);
-                        stockPrice.Ask = GetColumnValue("a", stockColumns, fieldsToFetch);
-                        stockPrice.OpenPrice = GetColumnValue("o", stockColumns, fieldsToFetch);
-                        stockPrice.TradedVolume = GetColumnValue("v", stockColumns, fieldsToFetch);
-                        stockPrice.LastTradedPrice = GetColumnValue("l1", stockColumns, fieldsToFetch);
+
+                        //Get values based on the column index and the index of the fieldFormat
+                        stockPrice.Symbol = GetStringValue("s", stockColumns, fieldsToFetch);
+
+                        stockPrice.Name = GetStringValue("n", stockColumns, fieldsToFetch);
+
+                        stockPrice.Bid = GetDecimalValue("b", stockColumns, fieldsToFetch);
+
+                        stockPrice.Ask = GetDecimalValue("a", stockColumns, fieldsToFetch);
+
+                        stockPrice.OpenPrice = GetDecimalValue("o", stockColumns, fieldsToFetch);
+
+                        stockPrice.TradedVolume = GetDecimalValue("v", stockColumns, fieldsToFetch);
+
+                        stockPrice.LastTradedPrice = GetDecimalValue("l1", stockColumns, fieldsToFetch);
+
                         stockPrice.TimeStamp = DateTime.Now;
+
                         sotckPricesrices.Add(stockPrice);
                     }
                 }
@@ -78,16 +86,29 @@ namespace StockPriceService
             return sotckPricesrices;
         }
 
-        private decimal? GetColumnValue(string field, string[] stockColumns, string fieldsToFetch)
+        private decimal? GetDecimalValue(string field, string[] stockColumns, string fieldsToFetch)
         {
-            if (stockColumns[fieldsToFetch.IndexOf(field, System.StringComparison.OrdinalIgnoreCase)] == "N/A")
+            if (fieldsToFetch.Contains(field))
             {
-                return null;
+                if (stockColumns[fieldsToFetch.IndexOf(field, StringComparison.OrdinalIgnoreCase)] == "N/A")
+                {
+                    return null;
+                }
+                decimal columnValue;
+                decimal.TryParse(stockColumns[fieldsToFetch.IndexOf(field, System.StringComparison.OrdinalIgnoreCase)],
+                    out columnValue);
+                return columnValue;
             }
-            decimal columnValue;
-            decimal.TryParse(stockColumns[fieldsToFetch.IndexOf(field, System.StringComparison.OrdinalIgnoreCase)],
-                out columnValue);
-            return columnValue;
+            return null;
+        }
+
+        private string GetStringValue(string field, string[] stockColumns, string fieldsToFetch)
+        {
+            if (fieldsToFetch.Contains(field))
+            {
+                return stockColumns[fieldsToFetch.IndexOf(field, StringComparison.OrdinalIgnoreCase)];
+            }
+            return "N/A";
         }
     }
 }

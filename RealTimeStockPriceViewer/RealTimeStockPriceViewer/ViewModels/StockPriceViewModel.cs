@@ -110,10 +110,17 @@ namespace RealTimeStockPriceViewer.ViewModels
         //Get the stock price asynchronously and start the timer
         private void GetStockPriceFromService(object obj)
         {
-            GetPricesAsync();
-            if (!_stockPriceTimer.IsEnabled)
+            if (!string.IsNullOrWhiteSpace(_fieldsToFetch))
             {
-                _stockPriceTimer.Start();
+                GetPricesAsync();
+                if (!_stockPriceTimer.IsEnabled)
+                {
+                    _stockPriceTimer.Start();
+                }
+            }
+            else
+            {
+                ViewModelHelper.ShowMessage("FieldsToFetch is empty. Please specify the fields to be fetched in the app.config", "Error");
             }
         }
 

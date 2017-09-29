@@ -111,6 +111,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\HistoricStockPriceViewModel.cs" />
     <Compile Include="ViewModels\StockPriceViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelHelper.cs" />
     <Page Include="HistoricStockPriceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
