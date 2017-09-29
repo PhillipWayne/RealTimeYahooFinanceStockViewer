@@ -11,7 +11,8 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Symbol"></Label>
-                <TextBox Text="{Binding CsvSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" x:Name="TxtSymbol" Width="180"  Margin="5,5,5,5"></TextBox>
+                <!--<TextBox Text="{Binding CsvSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" x:Name="TxtSymbol" Width="180"  Margin="5,5,5,5"></TextBox>-->
+                <ComboBox Width="150" Margin="5,5,5,5" ItemsSource="{Binding CsvStockSymbols, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CsvSymbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Start Date"></Label>
                 <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Width ="150"  Margin="5,5,5,5"></DatePicker>
 

@@ -17,7 +17,12 @@ namespace RealTimeStockPriceViewer.ViewModels
 {
     public class HistoricStockPriceViewModel : BaseViewModel
     {
-        public string CsvSymbols
+        public string CsvSymbol
+        {
+            get;
+            set;
+        }
+        public string[] CsvStockSymbols
         {
             get;
             set;
@@ -88,11 +93,14 @@ namespace RealTimeStockPriceViewer.ViewModels
             //set the dates default to one month difference
             StartDate = DateTime.Now.AddMonths(-1);
             EndDate = DateTime.Now;
+
+            //get the symbols from the config, this can be inclued to be taken from UI as well
+            CsvStockSymbols = ConfigurationManager.AppSettings["CsvSymbols"].Split(',');
         }
 
         private bool CanGetHistoricData(object obj)
         {
-            if(string.IsNullOrWhiteSpace(CsvSymbols) || StartDate <=DateTime.MinValue || EndDate <= DateTime.MinValue)
+            if(string.IsNullOrWhiteSpace(CsvSymbol) || StartDate <=DateTime.MinValue || EndDate <= DateTime.MinValue)
             return false;
             return true;
         }
@@ -119,7 +127,7 @@ namespace RealTimeStockPriceViewer.ViewModels
         private void GetPrices(object sender, DoWorkEventArgs args)
         {
             var results = _historicEntity.HistoricPrices.Where(
-                item => item.Symbol == CsvSymbols && item.AsAtDate >= StartDate.Date && item.AsAtDate <= EndDate.Date).ToList();
+                item => item.Symbol == CsvSymbol && item.AsAtDate >= StartDate.Date && item.AsAtDate <= EndDate.Date).ToList();
             args.Result = results;
         }
 
