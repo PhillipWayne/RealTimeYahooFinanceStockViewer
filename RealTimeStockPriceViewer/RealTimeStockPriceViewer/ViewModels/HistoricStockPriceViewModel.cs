@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,16 +23,50 @@ namespace RealTimeStockPriceViewer.ViewModels
             set;
         }
 
+        private DateTime _startDate;
+        private DateTime _endDate; 
+        
+        [Required(ErrorMessage = "Start Date is a required field.")]
         public DateTime StartDate
         {
-            get;
-            set;
+            get { return _startDate; }
+            set
+            {
+
+                if (_startDate != DateTime.MinValue && EndDate != DateTime.MinValue)
+                {
+
+                    if (value > _endDate)
+                    {
+                        MessageBox.Show("Start date must be less than End date");
+                        value = this.StartDate;
+                    }
+                }
+                _startDate = value;
+
+                OnPropertyChanged("StartDate");
+            }
         }
 
-        public DateTime EnDate
+        [Required(ErrorMessage = "End Date is a required field.")]
+        public DateTime EndDate
         {
-            get;
-            set;
+            get { return _endDate; }
+            set
+            {
+                if (_startDate != DateTime.MinValue && EndDate != DateTime.MinValue)
+                {
+                    if (_startDate > value)
+                    {
+                        MessageBox.Show("End date must be after Start date");
+                        value = this.EndDate;
+                    }
+                }
+
+                _endDate = value;
+
+                OnPropertyChanged("EndDate");
+            }
         }
         public ObservableCollection<HistoricPrice> HistoricStockPrices { get; set; }
 
@@ -50,15 +86,15 @@ namespace RealTimeStockPriceViewer.ViewModels
             _historicEntity = new HistoricDataEntities();
 
             //set the default date to current day
-            StartDate = DateTime.Now;
-            EnDate = DateTime.Now;
+            StartDate = DateTime.Now.AddMonths(-1);
+            EndDate = DateTime.Now;
         }
 
         private bool CanGetHistoricData(object obj)
         {
-            if(obj is string)
-                return !string.IsNullOrWhiteSpace(obj as string);
+            if(string.IsNullOrWhiteSpace(CsvSymbols) || StartDate <=DateTime.MinValue || EndDate <= DateTime.MinValue)
             return false;
+            return true;
         }
 
         private void GetHistoricData(object obj)
@@ -83,12 +119,12 @@ namespace RealTimeStockPriceViewer.ViewModels
         private void GetPrices(object sender, DoWorkEventArgs args)
         {
             var results = _historicEntity.HistoricPrices.Where(
-                item => item.Symbol == CsvSymbols && item.AsAtDate >= StartDate.Date && item.AsAtDate <= EnDate.Date).ToList();
+                item => item.Symbol == CsvSymbols && item.AsAtDate >= StartDate.Date && item.AsAtDate <= EndDate.Date).ToList();
             args.Result = results;
         }
 
         /// <summary>
-        /// background woek completed event handler
+        /// background work completed event handler
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="runWorkEventArgs"></param>

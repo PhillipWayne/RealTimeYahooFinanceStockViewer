@@ -7,23 +7,23 @@
     <Window.DataContext>
         <viewModels:HistoricStockPriceViewModel/>
     </Window.DataContext>
-    <Grid FocusManager.FocusedElement="{Binding ElementName= GridScrollViewer}">
+    <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Symbol"></Label>
                 <TextBox Text="{Binding CsvSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" x:Name="TxtSymbol" Width="180"  Margin="5,5,5,5"></TextBox>
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Start Date"></Label>
-                <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width ="150"  Margin="5,5,5,5"></DatePicker>
+                <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Width ="150"  Margin="5,5,5,5"></DatePicker>
 
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="End Date"></Label>
-                <DatePicker SelectedDate="{Binding EnDate, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width ="150" Margin="5,5,5,5"></DatePicker>
-                <Button FontWeight="Bold" Width ="100" Margin="5,5,5,5" Command ="{Binding GetHistoricDataCommand}" CommandParameter="{Binding ElementName=TxtSymbol, Path= Text, UpdateSourceTrigger=PropertyChanged }" Content="Get History"></Button>
+                <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Width ="150" Margin="5,5,5,5"></DatePicker>
+                <Button FontWeight="Bold" Width ="100" Margin="5,5,5,5" Command ="{Binding GetHistoricDataCommand}" Content="Get History"></Button>
             </StackPanel>
-            <StackPanel>
-                <DockPanel Margin="10,10,10,10">
-                    <ScrollViewer x:Name="GridScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel Height="415">
+
+                <ScrollViewer Margin="5,5,5,5" x:Name="GridScrollViewer">
                         <DataGrid IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False"
-                                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="405">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding AsAtDate}" Width ="100" Header="Date"/>
                                 <DataGridTextColumn Binding="{Binding Symbol}" Width ="100" Header="Symbol"/>
@@ -35,7 +35,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
-                </DockPanel>
+                
             </StackPanel>
         </StackPanel>
     </Grid>

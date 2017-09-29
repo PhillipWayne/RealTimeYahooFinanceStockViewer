@@ -9,10 +9,10 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label FontWeight="Bold" Margin="2,2,2,2" >Stock Symbols</Label>
-                <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding StartRealTimeFeedCommand}" FontWeight="Bold" Content="Start Realtime Feed" ></Button>
-                <Button Width="120" Margin="2,2,2,2" Height="25" Command="{Binding StopRealTimeFeedCommand}" FontWeight="Bold" Content="Stop Realtime Feed" ></Button>
-                <Button Width="120" Margin="2,2,2,2" Height="25" FontWeight="Bold" Command="{Binding ShowHistoricWindowCommand}" Content ="View Historic Data"></Button>
+                <Label FontWeight="Bold" Margin="5,5,5,5" >Stock Symbols</Label>
+                <Button Width="120" Margin="5,5,5,5" Height="25" Command="{Binding StartRealTimeFeedCommand}" FontWeight="Bold" Content="Start Realtime Feed" ></Button>
+                <Button Width="120" Margin="5,5,5,5" Height="25" Command="{Binding StopRealTimeFeedCommand}" FontWeight="Bold" Content="Stop Realtime Feed" ></Button>
+                <Button Width="120" Margin="5,5,5,5" Height="25" FontWeight="Bold" Command="{Binding ShowHistoricWindowCommand}" Content ="View Historic Data"></Button>
             </StackPanel>
             <StackPanel>
                 <DockPanel>
