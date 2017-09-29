@@ -181,7 +181,9 @@ namespace RealTimeStockPriceViewer.ViewModels
         {
             var stockListResults = runWorkEventArgs.Result as List<HistoricPrice>;
             UpdateDataCollection(stockListResults);
-            RowCount = HistoricStockPrices.Count(); 
+            RowCount = HistoricStockPrices.Count();
+            ViewModelHelper.ShowMessage(HistoricStockPrices.Any()? string.Format("{0} Rows Loaded Successfully", RowCount) :
+                "No data found, Please modify the search paramaters and try again." , "Info");
         }
 
         /// <summary>
@@ -193,11 +195,6 @@ namespace RealTimeStockPriceViewer.ViewModels
             if (historicStock.Any())
             {
                 historicStock.ForEach(historicItem => HistoricStockPrices.Add(historicItem));
-            }
-            else
-            {
-                //show message if no data returned
-                ViewModelHelper.ShowMessage("No data found, Please modify the search paramaters and try again.", "Info");
             }
         }
         #endregion

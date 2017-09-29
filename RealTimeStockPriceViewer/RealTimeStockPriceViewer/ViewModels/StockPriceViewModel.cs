@@ -120,6 +120,7 @@ namespace RealTimeStockPriceViewer.ViewModels
             if (_stockPriceTimer.IsEnabled)
             {
                 _stockPriceTimer.Stop();
+                ViewModelHelper.ShowMessage("Real time feed stopped", "Info");
             }
         }
 
@@ -133,6 +134,7 @@ namespace RealTimeStockPriceViewer.ViewModels
                 {
                     _stockPriceTimer.Start();
                 }
+                ViewModelHelper.ShowMessage("Real time feed started successfully", "Info");
             }
             else
             {
