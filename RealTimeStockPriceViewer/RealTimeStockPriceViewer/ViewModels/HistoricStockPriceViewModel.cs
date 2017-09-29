@@ -85,7 +85,7 @@ namespace RealTimeStockPriceViewer.ViewModels
             //initialize the Entityframework context
             _historicEntity = new HistoricDataEntities();
 
-            //set the default date to current day
+            //set the dates default to one month difference
             StartDate = DateTime.Now.AddMonths(-1);
             EndDate = DateTime.Now;
         }
