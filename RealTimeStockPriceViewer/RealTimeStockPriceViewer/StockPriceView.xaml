@@ -19,7 +19,7 @@
                     <ScrollViewer Margin="10,10,10,10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <DataGrid IsReadOnly="True" ItemsSource ="{Binding StockPrices}" AutoGenerateColumns="False" Width="Auto">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding TimeStamp}" Width ="125" Header="Refreshed Time"/>
+                                <DataGridTextColumn Binding="{Binding TimeStamp}" Width ="150" Header="Refreshed Time"/>
                                 <DataGridTextColumn Binding="{Binding Symbol}" Width ="100" Header="Symbol"/>
                                 <DataGridTextColumn Binding="{Binding Name}" Width ="150" Header="Name"/>
                                 <DataGridTextColumn Binding="{Binding LastTradedPrice}" Width ="100" Header="Last Traded Price"/>

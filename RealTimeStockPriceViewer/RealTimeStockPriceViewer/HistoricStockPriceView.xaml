@@ -11,7 +11,7 @@
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Symbol"></Label>
                 <!--<TextBox Text="{Binding CsvSymbols, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" x:Name="TxtSymbol" Width="180"  Margin="5,5,5,5"></TextBox>-->
-                <ComboBox Width="150" Margin="5,5,5,5" ItemsSource="{Binding CsvStockSymbols, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CsvSymbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                <ComboBox Width="150" Margin="5,5,5,5" ItemsSource="{Binding CsvStockSymbols, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding Symbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
                 <Label FontWeight="Bold" Margin="5,5,5,5" Content="Start Date"></Label>
                 <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Width ="150"  Margin="5,5,5,5"></DatePicker>
 
@@ -25,7 +25,7 @@
                     <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" ItemsSource ="{Binding HistoricStockPrices}" AutoGenerateColumns="False"
                                   ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="405">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding AsAtDate}" Width ="100" Header="Date"/>
+                                <DataGridTextColumn Binding="{Binding AsAtDate}" Width ="140" Header="Date"/>
                                 <DataGridTextColumn Binding="{Binding Symbol}" Width ="100" Header="Symbol"/>
                                 <DataGridTextColumn Binding="{Binding OpenPrice}" Width ="100" Header="Open"/>
                                 <DataGridTextColumn Binding="{Binding High}" Width ="100" Header="High"/>
@@ -35,7 +35,10 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
-                
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label FontWeight="Bold" Margin="5,5,5,5" Width="100" Content="Rows Fetched:"></Label>
+                <Label FontWeight="Bold" Margin="5,5,5,5" Width="100" Content="{Binding RowCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

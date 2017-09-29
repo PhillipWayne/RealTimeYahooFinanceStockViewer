@@ -193,6 +193,7 @@
       <DependentUpon>HistoricData.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Read_Me.txt" />
     <Resource Include="loading_icon.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

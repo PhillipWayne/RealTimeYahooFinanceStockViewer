@@ -106,7 +106,7 @@ namespace StockPriceService
         {
             if (fieldsToFetch.Contains(field))
             {
-                return stockColumns[fieldsToFetch.IndexOf(field, StringComparison.OrdinalIgnoreCase)];
+                return stockColumns[fieldsToFetch.IndexOf(field, StringComparison.OrdinalIgnoreCase)].Replace("\"", string.Empty);
             }
             return "N/A";
         }

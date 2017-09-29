@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -17,20 +18,24 @@ namespace RealTimeStockPriceViewer.ViewModels
 {
     public class HistoricStockPriceViewModel : BaseViewModel
     {
-        public string CsvSymbol
+        #region Properties
+        //Stock sybmol
+        public string Symbol
         {
             get;
             set;
         }
+
+        //Coma separated symbols
         public string[] CsvStockSymbols
         {
             get;
             set;
         }
 
-        private DateTime _startDate;
-        private DateTime _endDate; 
-        
+        /// <summary>
+        /// Start date to load history
+        /// </summary>
         [Required(ErrorMessage = "Start Date is a required field.")]
         public DateTime StartDate
         {
@@ -53,6 +58,9 @@ namespace RealTimeStockPriceViewer.ViewModels
             }
         }
 
+        /// <summary>
+        /// End date to load history
+        /// </summary>
         [Required(ErrorMessage = "End Date is a required field.")]
         public DateTime EndDate
         {
@@ -73,15 +81,38 @@ namespace RealTimeStockPriceViewer.ViewModels
                 OnPropertyChanged("EndDate");
             }
         }
+
+        //Observable collection of entity model to store the historic data
         public ObservableCollection<HistoricPrice> HistoricStockPrices { get; set; }
 
-        private readonly HistoricDataEntities _historicEntity;
+        //grid row count
+        private int _rowcount;
 
+        public int RowCount
+        {
+            get { return _rowcount; }
+            set
+            {
+                _rowcount = value;
+                OnPropertyChanged("RowCount");
+            }
+        }
+
+#endregion
+
+        #region Fields
+
+        private readonly HistoricDataEntities _historicEntity;
         public RelayCommand GetHistoricDataCommand { get; set; }
 
+        private DateTime _startDate;
+        private DateTime _endDate;
+        #endregion
+
+        #region Constructor
         public HistoricStockPriceViewModel()
         {
-           //initialize the GetHistoricData command
+            //initialize the GetHistoricData command
             GetHistoricDataCommand = new RelayCommand(GetHistoricData, CanGetHistoricData);
 
             //initialize the observable collection
@@ -96,11 +127,14 @@ namespace RealTimeStockPriceViewer.ViewModels
 
             //get the symbols from the config, this can be inclued to be taken from UI as well
             CsvStockSymbols = ConfigurationManager.AppSettings["CsvSymbols"].Split(',');
-        }
 
+        }
+        #endregion
+
+        #region Methods
         private bool CanGetHistoricData(object obj)
         {
-            if(string.IsNullOrWhiteSpace(CsvSymbol) || StartDate <=DateTime.MinValue || EndDate <= DateTime.MinValue)
+            if(string.IsNullOrWhiteSpace(Symbol) || StartDate <=DateTime.MinValue || EndDate <= DateTime.MinValue)
             return false;
             return true;
         }
@@ -110,9 +144,16 @@ namespace RealTimeStockPriceViewer.ViewModels
             GetPricesAsync();
         }
 
+        /// <summary>
+        /// Get Data asynchronously
+        /// </summary>
         private void GetPricesAsync()
         {
+            //clear the observable collection
             HistoricStockPrices.Clear();
+            RowCount = HistoricStockPrices.Count();
+
+            //start a new background thread
             var bgworker = new BackgroundWorker();
             bgworker.DoWork += GetPrices;
             bgworker.RunWorkerCompleted += bgworker_RunWorkerCompleted;
@@ -127,7 +168,7 @@ namespace RealTimeStockPriceViewer.ViewModels
         private void GetPrices(object sender, DoWorkEventArgs args)
         {
             var results = _historicEntity.HistoricPrices.Where(
-                item => item.Symbol == CsvSymbol && item.AsAtDate >= StartDate.Date && item.AsAtDate <= EndDate.Date).ToList();
+                item => item.Symbol == Symbol && item.AsAtDate >= StartDate.Date && item.AsAtDate <= EndDate.Date).ToList();
             args.Result = results;
         }
 
@@ -140,8 +181,13 @@ namespace RealTimeStockPriceViewer.ViewModels
         {
             var stockListResults = runWorkEventArgs.Result as List<HistoricPrice>;
             UpdateDataCollection(stockListResults);
+            RowCount = HistoricStockPrices.Count(); 
         }
 
+        /// <summary>
+        /// Update the observable collection
+        /// </summary>
+        /// <param name="historicStock"></param>
         private void UpdateDataCollection(List<HistoricPrice> historicStock)
         {
             if (historicStock.Any())
@@ -150,8 +196,10 @@ namespace RealTimeStockPriceViewer.ViewModels
             }
             else
             {
+                //show message if no data returned
                 ViewModelHelper.ShowMessage("No data found, Please modify the search paramaters and try again.", "Info");
             }
         }
+        #endregion
     }
 }
