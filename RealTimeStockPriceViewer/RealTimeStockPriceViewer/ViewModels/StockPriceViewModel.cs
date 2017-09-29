@@ -13,6 +13,7 @@ namespace RealTimeStockPriceViewer.ViewModels
 {
     public class StockPriceViewModel : BaseViewModel
     {
+        #region Properties
         //MVVM command to get the prices
         public RelayCommand StartRealTimeFeedCommand { get; set; }
 
@@ -21,9 +22,18 @@ namespace RealTimeStockPriceViewer.ViewModels
         //show historic window command
         public RelayCommand ShowHistoricWindowCommand { get; set; }
         
+        //observable collection to store stock prices
+        public ObservableCollection<StockPrice> StockPrices
+        {
+            get;
+            set;
+        }
+#endregion
+
+        #region Fields
         //url of yahoo finance to fetch the prices
         private readonly string _serviceUrl;
-        
+
         //fields charactors to fetch from the web
         private readonly string _fieldsToFetch;
 
@@ -31,7 +41,9 @@ namespace RealTimeStockPriceViewer.ViewModels
         private readonly StockService _stockService;
 
         private readonly DispatcherTimer _stockPriceTimer;
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
@@ -50,10 +62,10 @@ namespace RealTimeStockPriceViewer.ViewModels
 
             //get the symbols from the config, this can be inclued to be taken from UI as well
             CsvStockSymbols = ConfigurationManager.AppSettings["CsvSymbols"];
-            
+
             //instantiate the stock service
             _stockService = new StockService();
-            
+
             //instantiate the observable collection
             StockPrices = new ObservableCollection<StockPrice>();
 
@@ -63,8 +75,11 @@ namespace RealTimeStockPriceViewer.ViewModels
             _stockPriceTimer = new DispatcherTimer();
             _stockPriceTimer.Tick += _stockPriceTimer_Tick;
             _stockPriceTimer.Interval = new TimeSpan(0, 0, 0, interval == 0 ? 50 : interval);
-           }
+        }
 
+        #endregion
+
+        #region Methods
         private bool CanShowHistoricWindow(object obj)
         {
             return true;
@@ -73,16 +88,17 @@ namespace RealTimeStockPriceViewer.ViewModels
         //show the historic view
         private void ShowHistoricWindow(object obj)
         {
-            var historicView = new HistoricStockPriceView(); 
+            var historicView = new HistoricStockPriceView();
             historicView.Show();
         }
-        
+
         /// <summary>
         /// CsvStockSymbols property
         /// </summary>
         public string CsvStockSymbols
         {
-            get; set;
+            get;
+            set;
         }
 
         private bool CanStartCommand(object obj)
@@ -192,6 +208,7 @@ namespace RealTimeStockPriceViewer.ViewModels
             }
         }
 
+        //update stock item if exists
         private void UpdateStockItem(StockPrice stock)
         {
             var addedStock = StockPrices.FirstOrDefault(item => item.Symbol == stock.Symbol);
@@ -206,11 +223,7 @@ namespace RealTimeStockPriceViewer.ViewModels
                 StockPrices[index].TimeStamp = DateTime.Now;
             }
         }
-
-        public ObservableCollection<StockPrice> StockPrices
-        {
-            get;
-            set;
-        }
+        #endregion
+       
     }
 }

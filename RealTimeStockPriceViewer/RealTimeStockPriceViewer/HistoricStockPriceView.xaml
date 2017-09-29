@@ -37,8 +37,8 @@
                     </ScrollViewer>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label FontWeight="Bold" Margin="5,5,5,5" Width="100" Content="Rows Fetched:"></Label>
-                <Label FontWeight="Bold" Margin="5,5,5,5" Width="100" Content="{Binding RowCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label FontWeight="Bold" Margin="1,1,1,1" Width="90" Content="Rows Fetched:"></Label>
+                <Label FontWeight="Bold" Margin="1,1,1,1" Width="50" Content="{Binding RowCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
